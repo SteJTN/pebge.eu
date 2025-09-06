@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Madagaskar</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        html,
+        body {
+            overflow-x: hidden;
+        }
+
+        .logo {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin: 10px;
+        }
+
+        .menu {
+            width: 100%;
+            height: 50px;
+            background-color: #013E20;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .liste ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        .liste ul li a {
+            text-decoration: none;
+            color: white;
+            font-size: 20px;
+            font-family: Arial, Helvetica, sans-serif;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .liste ul li a:hover,
+        .liste ul li a.active {
+            color: #62B545;
+        }
+
+        .section1 {
+            width: 100%;
+            padding: 40px 0 40px 0;
+            background: #f5f5f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .section1-content {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            width: 70%;
+            max-width: 900px;
+        }
+
+        .section1 h1 {
+            font-size: 2.2rem;
+            color: #013E20;
+            margin-bottom: 20px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .contexte1 {
+            width: 60%;
+            font-size: 1.1rem;
+            color: #222;
+            font-family: Arial, Helvetica, sans-serif;
+            text-align: left;
+            margin-bottom: 0;
+        }
+
+        .media1 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .media1 img {
+            width: 180px;
+            height: auto;
+        }
+
+        .produits-section {
+            width: 100%;
+            background: #fff;
+            padding: 40px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .produits-section h2 {
+            color: #013E20;
+            font-size: 2rem;
+            margin-bottom: 30px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .produits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 30px;
+            width: 80%;
+            max-width: 1100px;
+        }
+
+        .produit {
+            background: #f5f5f5;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: box-shadow 0.2s;
+            cursor: pointer;
+        }
+
+        .produit:hover {
+            box-shadow: 0 6px 18px rgba(98, 181, 69, 0.18);
+        }
+
+        .produit img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            background: #fff;
+        }
+
+        .produit-nom {
+            font-size: 1.05rem;
+            color: #013E20;
+            text-align: center;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .produit-desc {
+            font-size: 0.95rem;
+            color: #444;
+            text-align: center;
+            margin-top: 8px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .modal {
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: #fff;
+            border-radius: 12px;
+            padding: 30px 40px;
+            max-width: 450px;
+            width: 90%;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+            position: relative;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .close {
+            position: absolute;
+            top: 12px;
+            right: 18px;
+            font-size: 2rem;
+            color: #013E20;
+            cursor: pointer;
+        }
+
+        .modal-content h3 {
+            color: #013E20;
+            margin-bottom: 10px;
+        }
+
+        .modal-content p {
+            color: #222;
+            font-size: 1rem;
+            margin-bottom: 0;
+        }
+
+        .champ-section {
+            width: 100%;
+            background: #f0f7ef;
+            padding: 40px 0 40px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .champ-section h2 {
+            color: #013E20;
+            font-size: 2rem;
+            margin-bottom: 30px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        span {
+            font-weight: bold;
+            color: #013E20;
+        }
+
+        .champ-content {
+            display: flex;
+            flex-direction: row;
+            align-items: stretch;
+            /* Permet à l'image et au texte de prendre toute la hauteur */
+            justify-content: center;
+            width: 98%;
+            max-width: 1200px;
+            min-height: 220px;
+            margin: 0 auto;
+        }
+
+        .champ-content img {
+            width: 430px;
+            height: 100%;
+            /* Prend toute la hauteur du parent */
+            max-width: 100%;
+            object-fit: cover;
+            border-radius: 18px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+            display: block;
+        }
+
+        .champ-texte-wrapper {
+            display: flex;
+            align-items: center;
+            /* Centre le texte verticalement */
+            justify-content: center;
+            /* Centre le texte horizontalement */
+            width: auto;
+            margin-left: 40px;
+        }
+
+        .champ-texte {
+            font-size: 1.12rem;
+            color: #222;
+            font-family: Arial, Helvetica, sans-serif;
+            text-align: center;
+            /* Centre le texte */
+            max-width: 520px;
+            min-width: 220px;
+            background: #fff;
+            padding: 28px 24px;
+            border-radius: 16px;
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            /* Centre le texte horizontalement */
+            height: auto;
+            box-sizing: border-box;
+            word-break: break-word;
+        }
+
+        @media (max-width: 900px) {
+            .champ-content {
+                flex-direction: column;
+                gap: 24px;
+                align-items: center;
+                min-height: unset;
+            }
+
+            .champ-content img {
+                width: 100%;
+                height: auto;
+                max-width: 100%;
+                margin-bottom: 10px;
+            }
+
+            .champ-texte-wrapper {
+                width: 100%;
+                justify-content: center;
+                margin-left: 0;
+                align-items: center;
+            }
+
+            .champ-texte {
+                max-width: 100%;
+                margin-left: 0;
+                padding: 20px 10px;
+                height: auto;
+            }
+        }
+
+        .burger {
+            display: none;
+            width: 30px;
+            cursor: pointer;
+            position: absolute;
+        }
+
+
+        /* Mobile uniquement */
+        @media screen and (max-width: 768px) {
+
+            .section1-content {
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .contexte1 {
+                width: 100%;
+                font-size: 1rem;
+                text-align: center;
+            }
+
+            .kaufland-section {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+            }
+
+            .kaufland-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            /* Burger centré */
+            .burger {
+                display: block;
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+                cursor: pointer;
+                z-index: 10;
+            }
+
+            /* Menu rideau caché par défaut */
+            #menuListe {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                background: linear-gradient(180deg, #013E20, #62B545);
+                overflow: hidden;
+                position: absolute;
+                top: 50px;
+                /* juste en dessous du burger */
+                left: 0;
+                z-index: 9;
+            }
+
+            #menuListe.show {
+                display: flex;
+                animation: slideDown 0.3s ease forwards;
+            }
+
+            /* Animation déroulement */
+            @keyframes slideDown {
+                0% {
+                    opacity: 0;
+                    transform: translateY(-20px);
+                }
+
+                100% {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            /* Liens gardent le même style que desktop */
+            #menuListe ul {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+                padding: 10px 0;
+                margin: 0;
+            }
+
+            #menuListe ul li a {
+                color: white;
+                text-decoration: none;
+                font-size: 20px;
+                transition: color 0.2s;
+            }
+
+            #menuListe ul li a:hover,
+            #menuListe ul li a.active {
+                color: #62B545;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="logo">
+        <img src="logo ks.jpeg" alt="logo" width="300px">
+    </div>
+    <div class="menu">
+        <div class="liste" id="menuListe">
+            <ul>
+                <li><a href="index.html">Start</a></li>
+                <li><a href="#">Leistungen</a></li>
+                <li><a href="galerie.html">Galerie</a></li>
+                <li><a href="#">Aktuelles</a></li>
+                <li><a href="#">Tätigkeiten</a></li>
+                <li><a href="madagaskar.html" class="active">Madagaskar</a></li>
+                <li><a href="#">Kontakt</a></li>
+            </ul>
+        </div>
+        <img src="icon/burger-bar.png" alt="menu" class="burger" onclick="toggleMenu()">
+    </div>
+    <div class="section1">
+        <h1>Unsere Marken</h1>
+        <div class="section1-content">
+            <div class="contexte1">
+                <strong>J'OSEspices</strong> ist eine Marke, die aus der Leidenschaft für die authentischen Aromen
+                Madagaskars entstanden ist. Gegründet von Naturliebhabern und Kennern des Terroirs, hat sich unser Shop
+                auf die Auswahl und Aufwertung außergewöhnlicher Gewürze spezialisiert, insbesondere Vanille sowie
+                roter, schwarzer und wilder Pfeffer. Seit ihren Anfängen engagiert sich J'OSEspices dafür, lokales
+                Know-how zu fördern, das die Produzenten und die Umwelt respektiert, um seinen Kunden reine, natürliche
+                Produkte von unvergleichlicher Qualität anzubieten.<br><br>
+                Entdecken Sie unseren Online-Shop&nbsp;:
+                <a href="https://josespices.com" target="_blank"
+                    style="color:#62B545; text-decoration:underline;">josespices.com</a>
+            </div>
+            <div class="media1">
+                <img src="josespices.jpeg" alt="Logo J'OSEspices">
+            </div>
+        </div>
+    </div>
+
+
+    <div class="produits-section">
+        <h2>Unsere Produkte</h2>
+        <div class="produits-grid">
+            <div class="produit" tabindex="0" onclick="showModal('poivre-rouge-100g')">
+                <img src="spice/poivre rouge 100g.jpg" alt="Roter Pfeffer 100g">
+                <div class="produit-nom">Roter Pfeffer 100g</div>
+                <div class="produit-desc">Roter Pfeffer aus Madagaskar, bei voller Reife geerntet für einen fruchtigen
+                    und intensiven Geschmack. Beutel mit 100g. <br> <span>Preis: 13 €</span> </div>
+            </div>
+            <div class="produit" tabindex="0" onclick="showModal('poivre-rouge-250g')">
+                <img src="spice/poivre rouge 250g.jpg" alt="Roter Pfeffer 250g">
+                <div class="produit-nom">Roter Pfeffer 250g</div>
+                <div class="produit-desc">Roter Pfeffer aus Madagaskar, ideal für Liebhaber raffinierter Gewürze. Beutel
+                    mit 250g. <br><br> <span>Preis: 30 €</span></div>
+            </div>
+            <div class="produit" tabindex="0" onclick="showModal('poivre-noire-100g')">
+                <img src="spice/poivre noire 100g.jpg" alt="Schwarzer Pfeffer 100g">
+                <div class="produit-nom">Schwarzer Pfeffer 100g</div>
+                <div class="produit-desc">Schwarzer Pfeffer mit kräftigem Aroma, perfekt zum Verfeinern Ihrer Gerichte.
+                    Beutel mit 100g. <br><br> <span>Preis: 15€</span> </div>
+            </div>
+            <div class="produit" tabindex="0" onclick="showModal('poivre-noire-250g')">
+                <img src="spice/poivre noire 250g.jpg" alt="Schwarzer Pfeffer 250g">
+                <div class="produit-nom">Schwarzer Pfeffer 250g</div>
+                <div class="produit-desc">Schwarzer Pfeffer aus Madagaskar, ausgewählt für seine außergewöhnliche
+                    Qualität. Beutel mit 250g. <br> <span>Preis: 35 €</span> </div>
+            </div>
+            <div class="produit" tabindex="0" onclick="showModal('poivre-sauvage-100g')">
+                <img src="spice/poivre sauvage 100g.jpg" alt="Wilder Pfeffer 100g">
+                <div class="produit-nom">Wilder Pfeffer 100g</div>
+                <div class="produit-desc">Seltener wilder Pfeffer mit holzigen und zitronigen Noten. Beutel mit 100g.
+                    <br> <br> <span>Preis: 30 €</span>
+                </div>
+            </div>
+            <div class="produit" tabindex="0" onclick="showModal('poivre-sauvage-250g')">
+                <img src="spice/poivre sauvage 250g.jpg" alt="Wilder Pfeffer 250g">
+                <div class="produit-nom">Wilder Pfeffer 250g</div>
+                <div class="produit-desc">Wilder Pfeffer aus Madagaskar, für ein einzigartiges Geschmackserlebnis.
+                    Beutel mit 250g. <br> <span>Preis: 65 €</span></div>
+            </div>
+            <div class="produit" tabindex="0" onclick="showModal('poudre-vanille-250g')">
+                <img src="spice/poudre vanille 250g.jpg" alt="Vanillepulver 250g">
+                <div class="produit-nom">Vanillepulver 250g</div>
+                <div class="produit-desc">Reines Vanillepulver, ideal für großzügige Verwendung in der Patisserie.
+                    Beutel mit 250g. <br><br> <span>Preis: 75 €</span> </div>
+            </div>
+            <div class="produit" tabindex="0" onclick="showModal('poudre-vanille-1kg')">
+                <img src="spice/poudre vanille 1kg.jpg" alt="Vanillepulver 1kg">
+                <div class="produit-nom">Vanillepulver 1kg</div>
+                <div class="produit-desc">Hochwertiges Vanillepulver, ideal für Profis. Beutel mit 1kg. <br> <br> <br>
+                    <span>Preis: 240 €</span> </div>
+            </div>
+            <div class="produit" tabindex="0" onclick="showModal('vanille-bourbon-250g')">
+                <img src="spice/vanille bourbon 250g.jpg" alt="Bourbon-Vanille 250g">
+                <div class="produit-nom">Bourbon-Vanille 250g</div>
+                <div class="produit-desc">Bourbon-Vanilleschoten, bekannt für ihr intensives Aroma. Beutel mit 250g.
+                    <br><br> <span>Preis: 55 €</span>
+                </div>
+            </div>
+            <div class="produit" tabindex="0" onclick="showModal('vanille-bourbon-1kg')">
+                <img src="spice/vanille bourbon 1kg.jpg" alt="Bourbon-Vanille 1kg">
+                <div class="produit-nom">Bourbon-Vanille 1kg</div>
+                <div class="produit-desc">Bourbon-Vanille aus Madagaskar, Premium-Auswahl für große Zubereitungen.
+                    Beutel mit 1kg. <br> <span>Preis: 210 €</span> </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ajoute cette section juste avant la section .produits-section -->
+    <div class="champ-section">
+        <h2>Unsere Arbeit vor Ort</h2>
+        <div class="champ-content">
+            <img src="working.jpg" alt="Arbeit im Vanillefeld" class="imgwork" id="slideshow">
+            <div class="champ-texte-wrapper">
+                <div class="champ-texte">
+                    <p>
+                        Jede Vanilleschote und jeder Pfeffer – ob rot, schwarz oder wild – den wir anbieten, ist das
+                        Ergebnis leidenschaftlicher und sorgfältiger Arbeit. Vor Ort verpflichtet sich unser Team, die
+                        traditionellen Methoden des Anbaus, der Ernte und des Trocknens zu respektieren, um auf jeder
+                        Etappe außergewöhnliche Qualität zu gewährleisten.
+                    </p>
+                    <p>
+                        Wir führen die natürliche Trocknung von Vanille und Pfeffer durch – ein wesentlicher Schritt, um
+                        alle Aromen zu entfalten und die Reichhaltigkeit unserer Produkte zu bewahren. Unser Know-how
+                        und unser lokales Engagement machen den Unterschied in jeder Charge, die wir vorbereiten.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Ajoute ce bloc juste après la section .produits-section -->
+    <div class="kaufland-section"
+        style="width:100%;background:#f5f5f5;padding:32px 0;display:flex;flex-direction:column;align-items:center;">
+        <h2 style="color:#013E20;font-size:1.5rem;margin-bottom:18px;font-family:Arial,Helvetica,sans-serif;">
+            Unsere Gewürze gibt es auch bei Kaufland!
+        </h2>
+        <div style="display:flex;align-items:center;gap:24px;flex-wrap:wrap;">
+            <img src="kaufland-logo.png" alt="Kaufland"
+                style="height:54px;background:#fff;border-radius:8px;padding:6px 18px;box-shadow:0 2px 8px rgba(0,0,0,0.07);">
+            <div style="font-size:1.08rem;color:#222;max-width:420px;">
+                Entdecken Sie das gesamte J'OSEspices-Sortiment – Vanille, roter, schwarzer und wilder Pfeffer – direkt
+                auf der Plattform <b>Kaufland</b>.<br>
+                Genießen Sie madagassische Qualität, ganz einfach zu Ihnen nach Hause geliefert!
+            </div>
+            <a href="https://www.kaufland.de/s/?search_value=josespice" target="_blank"
+                style="margin-left:0;padding:10px 28px;background:#62B545;color:#fff;font-weight:bold;border-radius:22px;text-decoration:none;box-shadow:0 2px 8px rgba(98,181,69,0.13);transition:background 0.2s;">
+                Unsere Produkte auf Kaufland ansehen
+            </a>
+        </div>
+    </div>
+
+
+    <!-- Fenêtre modale pour les détails produits -->
+    <div id="modal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <script>
+        const productDetails = {
+            "poivre-rouge-100g": {
+                title: "Roter Pfeffer 100g",
+                desc: `<ul>
+            <li>Herkunft: Madagaskar, Region Sambava</li>
+            <li>Bei voller Reife geerntet für eine intensive rote Farbe</li>
+            <li>Geschmack: fruchtig, leicht süßlich, blumige Noten</li>
+            <li>Verwendung: Fleisch, Fisch, Saucen, Desserts</li>
+            <li>Verpackung: luftdichter Beutel mit 100g</li>
+        </ul>
+        <p>Roter Pfeffer ist selten und sehr begehrt wegen seiner Milde und seines einzigartigen Aromas. Ideal, um Ihre raffiniertesten Gerichte zu veredeln.</p>`
+            },
+            "poivre-rouge-250g": {
+                title: "Roter Pfeffer 250g",
+                desc: `<ul>
+            <li>Herkunft: Madagaskar, Region Sambava</li>
+            <li>Körner ausgewählt nach Größe und Reife</li>
+            <li>Geschmack: fruchtig, mild, leicht würzig</li>
+            <li>Verwendung: Gourmetküche, Pfeffermühlen</li>
+            <li>Verpackung: luftdichter Beutel mit 250g</li>
+        </ul>
+        <p>Ein großzügiges Format für Liebhaber von rotem Pfeffer – für den täglichen Gebrauch oder große Tafeln.</p>`
+            },
+            "poivre-noire-100g": {
+                title: "Schwarzer Pfeffer 100g",
+                desc: `<ul>
+            <li>Herkunft: Madagaskar, Ostküste</li>
+            <li>Körner bei Reife geerntet und in der Sonne getrocknet</li>
+            <li>Geschmack: kräftig, warm, leicht holzig</li>
+            <li>Verwendung: alle Arten von herzhaften Gerichten</li>
+            <li>Verpackung: luftdichter Beutel mit 100g</li>
+        </ul>
+        <p>Schwarzer Pfeffer aus Madagaskar ist bekannt für sein intensives Aroma und seine unvergleichliche Frische.</p>`
+            },
+            "poivre-noire-250g": {
+                title: "Schwarzer Pfeffer 250g",
+                desc: `<ul>
+            <li>Herkunft: Madagaskar, Ostküste</li>
+            <li>Körner kalibriert für gleichmäßiges Mahlen</li>
+            <li>Geschmack: intensiv, holzige und würzige Noten</li>
+            <li>Verwendung: Mühlen, Marinaden, Grillgerichte</li>
+            <li>Verpackung: luftdichter Beutel mit 250g</li>
+        </ul>
+        <p>Ein unverzichtbares Produkt für Pfefferliebhaber, im Familienformat.</p>`
+            },
+            "poivre-sauvage-100g": {
+                title: "Wilder Pfeffer 100g",
+                desc: `<ul>
+            <li>Art: Voatsiperifery (wilder Pfeffer)</li>
+            <li>Herkunft: Tropische Wälder Madagaskars</li>
+            <li>Geschmack: holzig, zitronig, leicht scharf</li>
+            <li>Verwendung: Fleisch, Fisch, Gemüse, Desserts</li>
+            <li>Verpackung: luftdichter Beutel mit 100g</li>
+        </ul>
+        <p>Wilder Pfeffer wird von Hand an wilden Lianen geerntet – für ein einzigartiges Geschmackserlebnis.</p>`
+            },
+            "poivre-sauvage-250g": {
+                title: "Wilder Pfeffer 250g",
+                desc: `<ul>
+            <li>Art: Voatsiperifery (wilder Pfeffer)</li>
+            <li>Herkunft: Tropische Wälder Madagaskars</li>
+            <li>Geschmack: frisch, holzig, Zitrusnoten</li>
+            <li>Verwendung: kreative Küche, Saucen, Desserts</li>
+            <li>Verpackung: luftdichter Beutel mit 250g</li>
+        </ul>
+        <p>Ein seltener und wertvoller Pfeffer, perfekt, um Ihre Gäste zu überraschen.</p>`
+            },
+            "poudre-vanille-250g": {
+                title: "Vanillepulver 250g",
+                desc: `<ul>
+            <li>100% gemahlene Bourbon-Vanilleschoten</li>
+            <li>Herkunft: Madagaskar</li>
+            <li>Vanillingehalt: 1,6% bis 2,0%</li>
+            <li>Aroma: intensiv, süß, blumig</li>
+            <li>Verwendung: Patisserie, Eiscreme, Getränke, Joghurt</li>
+            <li>Verpackung: wiederverschließbarer Beutel mit 250g</li>
+        </ul>
+        <p>Vanillepulver ist ideal, um all Ihre süßen und herzhaften Zubereitungen zu aromatisieren.</p>`
+            },
+            "poudre-vanille-1kg": {
+                title: "Vanillepulver 1kg",
+                desc: `<ul>
+            <li>100% reine Bourbon-Vanille, ohne Zusatzstoffe</li>
+            <li>Herkunft: Madagaskar</li>
+            <li>Hoher Vanillingehalt</li>
+            <li>Aroma: kräftig, langanhaltend</li>
+            <li>Verwendung: Profis, große Mengen</li>
+            <li>Verpackung: wiederverschließbarer Beutel mit 1kg</li>
+        </ul>
+        <p>Für Konditoren, Pâtissiers oder große Vanilleliebhaber – dieses Format bietet ein ausgezeichnetes Preis-Leistungs-Verhältnis.</p>`
+            },
+            "vanille-bourbon-250g": {
+                title: "Bourbon-Vanille 250g",
+                desc: `<ul>
+            <li>Premium-Schoten, von Hand ausgewählt</li>
+            <li>Vanillingehalt: 1,8% bis 2,2%</li>
+            <li>Länge: 16 bis 18 cm</li>
+            <li>Textur: weich, fleischig und glänzend</li>
+            <li>Aroma: intensiv, blumig und schokoladig</li>
+            <li>Herkunft: Madagaskar</li>
+            <li>Verwendung: Patisserie, Eiscreme, Rum</li>
+            <li>Verpackung: vakuumversiegelter Beutel mit 250g</li>
+        </ul>
+        <p>Unsere Bourbon-Vanilleschoten sind weltweit für ihre außergewöhnliche Qualität bekannt.</p>`
+            },
+            "vanille-bourbon-1kg": {
+                title: "Bourbon-Vanille 1kg",
+                desc: `<ul>
+            <li>Premium-Schoten, von Hand ausgewählt</li>
+            <li>Vanillingehalt: 1,8% bis 2,2%</li>
+            <li>Länge: 16 bis 18 cm</li>
+            <li>Textur: weich, fleischig und glänzend</li>
+            <li>Aroma: intensiv, blumig und schokoladig</li>
+            <li>Herkunft: Madagaskar</li>
+            <li>Verwendung: Profis, große Zubereitungen</li>
+            <li>Verpackung: vakuumversiegelter Beutel mit 1kg</li>
+        </ul>
+        <p>Das ideale Format für Profis oder Vanilleliebhaber, die ein außergewöhnliches Produkt genießen möchten.</p>`
+            }
+        };
+
+        function showModal(key) {
+            const modal = document.getElementById('modal');
+            const body = document.getElementById('modal-body');
+            if (productDetails[key]) {
+                body.innerHTML = `<h3>${productDetails[key].title}</h3>${productDetails[key].desc}`;
+            } else {
+                body.innerHTML = "<p>Detaillierte Beschreibung nicht verfügbar.</p>";
+            }
+            modal.style.display = "flex";
+        }
+        function closeModal() {
+            document.getElementById('modal').style.display = "none";
+        }
+        window.addEventListener('keydown', function (e) {
+            if (e.key === "Escape") closeModal();
+        });
+    </script>
+
+    <script>
+        const images = [
+            "working.jpg",
+            "work_poivre.jpeg",
+            "work_poivre_rouge.jpeg"
+        ];
+
+        let index = 0;
+        const imgElement = document.getElementById("slideshow");
+
+        setInterval(() => {
+            index = (index + 1) % images.length; // Passe à l'image suivante
+            imgElement.src = images[index];
+        }, 2000); // 2000 ms = 2 secondes
+    </script>
+
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('menuListe');
+            menu.classList.toggle('show');
+        }
+
+
+    </script>
+
+</body>
+
+
+</html>

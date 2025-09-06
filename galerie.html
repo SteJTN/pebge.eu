@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galerie</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            overflow-x: hidden;
+            background: #f7f7f7;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        /* LOGO */
+        .logo {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin: 18px 0 8px 0;
+        }
+
+        .logo img {
+            width: 260px;
+        }
+
+        /* MENU */
+        .menu {
+            width: 100%;
+            height: 54px;
+            background-color: #013E20;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            position: relative;
+            z-index: 10;
+        }
+
+        .liste ul {
+            list-style: none;
+            display: flex;
+            gap: 28px;
+        }
+
+        .liste ul li a {
+            text-decoration: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .liste ul li a:hover,
+        .liste ul li a.active {
+            color: #62B545;
+        }
+
+        /* BURGER */
+        .burger {
+            display: none;
+            width: 30px;
+            cursor: pointer;
+            position: absolute;
+            z-index: 1001;
+        }
+
+        /* MOBILE */
+        @media screen and (max-width: 768px) {
+            .burger {
+                display: block;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            #menuListe {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                height: auto;
+                background: linear-gradient(180deg, #013E20, #62B545);
+                position: absolute;
+                top: 54px; /* juste en dessous du menu */
+                left: 0;
+                z-index: 9;
+                overflow: visible; /* montrer tout le contenu */
+                padding: 10px 0;
+            }
+
+            #menuListe.show {
+                display: flex;
+            }
+
+            #menuListe ul {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+                padding: 0;
+                margin: 0;
+            }
+
+            #menuListe ul li a {
+                color: white;
+                text-decoration: none;
+                font-size: 20px;
+                transition: color 0.2s;
+                padding: 8px 0;
+            }
+
+            #menuListe ul li a:hover,
+            #menuListe ul li a.active {
+                color: #62B545;
+            }
+        }
+
+        /* CONTENU */
+        .contenu {
+            padding: 20px;
+            text-align: center;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .contenu img {
+            width: 300px;
+            margin: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+            cursor: pointer;
+            object-fit: cover;
+            height: 450px;
+            
+        }
+        .contenu img:hover {
+            transform: scale(1.05);
+        }
+        .Galerie h1 {
+            text-align: center;
+            margin: 20px 0;
+            color: #013E20;
+        }
+        .Galerie {
+            max-width: 1200px;
+            margin: auto;
+        }
+        @media screen and (max-width: 600px) {
+            .contenu img {
+                width: 90%;
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- LOGO -->
+    <div class="logo">
+        <img src="logo ks.jpeg" alt="logo" width="260">
+    </div>
+
+    <!-- MENU -->
+    <div class="menu">
+        <div class="liste" id="menuListe">
+            <ul>
+                <li><a href="index.html">Start</a></li>
+                <li><a href="#">Leistungen</a></li>
+                <li><a href="galerie.html" class="active">Galerie</a></li>
+                <li><a href="#">Aktuelles</a></li>
+                <li><a href="#">Tätigkeiten</a></li>
+                <li><a href="madagaskar.html">Madagaskar</a></li>
+                <li><a href="#">Kontakt</a></li>
+            </ul>
+        </div>
+        <img src="icon/burger-bar.png" alt="menu" class="burger" onclick="toggleMenu()">
+    </div>
+
+    <div class="Galerie">
+        <h1>Unser Galerie</h1>
+        <div class="contenu">
+            <img src="galerie/panel.jpg" alt="">
+            <img src="galerie/pump1.jpg" alt="">
+            <img src="galerie/pump2.jpg" alt="">
+            <img src="galerie/pump3.jpg" alt="">
+            <img src="galerie/pump4.jpg" alt="">
+            <img src="galerie/pump5.jpg" alt="">
+        </div>
+    </div>
+
+    <!-- JS MENU -->
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('menuListe');
+            menu.classList.toggle('show');
+        }
+    </script>
+</body>
+
+</html>
