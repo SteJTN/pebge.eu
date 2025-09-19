@@ -505,16 +505,27 @@
         /* Mobile uniquement */
         @media screen and (max-width: 768px) {
 
-            .carousel-section{
+            .carousel-section {
                 padding: 28px 0 28px 0;
                 width: 100%;
             }
+
             .carousel-container {
-                width: 100% !important;
+                width: 95% !important;
+                min-width: 0 !important;
+                max-width: 95% !important;
             }
-            .carousel-item{
+
+            .carousel-item {
                 min-width: 100% !important;
                 max-width: 100% !important;
+            }
+
+            .carousel-item,
+            .carousel-item img {
+                min-width: 95% !important;
+                max-width: 95% !important;
+                height: auto !important;
             }
 
             /* Burger centré */
@@ -612,6 +623,23 @@
             <span>Innovation, Nachhaltigkeit und Authentizität vereint</span>
         </div>
     </div>
+    <!-- CAROUSEL INSTALLATIONS ENERGETIQUES -->
+    <div class="carousel-section">
+        <h2>Unsere Energieprojekte</h2>
+        <div class="carousel-row">
+            <div class="carousel-desc">
+                Entdecken Sie unsere neuesten Installationen: Solarpanels auf Dächern und moderne Wärmepumpensysteme.
+                Innovative Projekte für eine nachhaltige und zukunftsfähige Energieversorgung.
+            </div>
+            <div class="carousel-container" style="overflow:hidden;">
+                <div class="carousel-track" id="energy-carousel-track"
+                    style="display:flex;transition:transform 0.7s cubic-bezier(.77,0,.18,1);will-change:transform;">
+                    <!-- Images insérées via JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="video-hero-caption" style="font-size:1.25rem;font-weight:bold;letter-spacing:0.5px;color:#62B545;">
         Erleben Sie das einzigartige Zusammenspiel, wo die Kraft der Sonne auf die Exzellenz madagassischer Gewürze
         trifft.<br>
@@ -736,6 +764,48 @@
         }
 
     </script>
+    <script>
+        const energyImages = [
+            "galerie/panel.jpg",
+            "galerie/pump1.jpg",
+            "galerie/pump2.jpg",
+            "galerie/pump3.jpg",
+            "galerie/pump4.jpg",
+            "galerie/pump5.jpg",
+            "galerie/pump7.jpg",
+            "galerie/pump8.jpg",
+            "galerie/solar1.jpg",
+            "galerie/solar2.jpg",
+            "galerie/solar3.jpg"
+        ];
+
+        const energyTrack = document.getElementById('energy-carousel-track');
+        energyTrack.innerHTML = '';
+        energyImages.forEach(src => {
+            const div = document.createElement('div');
+            div.className = 'carousel-item';
+            div.innerHTML = `<img src="${src}" alt="Installation énergétique">`;
+            energyTrack.appendChild(div);
+        });
+
+        let energyIndex = 0;
+        function updateEnergyCarousel() {
+            const item = document.querySelector('#energy-carousel-track .carousel-item');
+            if (!item) return;
+            const itemWidth = item.offsetWidth;
+            energyTrack.style.transform = `translateX(${-energyIndex * itemWidth}px)`;
+        }
+        function autoEnergyCarousel() {
+            const total = energyImages.length;
+            energyIndex++;
+            if (energyIndex >= total) energyIndex = 0;
+            updateEnergyCarousel();
+        }
+        setInterval(autoEnergyCarousel, 2000);
+        window.addEventListener('resize', updateEnergyCarousel);
+        window.addEventListener('DOMContentLoaded', updateEnergyCarousel);
+    </script>
+
 </body>
 
 </html>
